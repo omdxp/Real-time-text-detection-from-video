@@ -85,10 +85,10 @@ namespace _18_Real_time_Text_Detection_from_Videos
             // Sobel
             Image<Gray, byte> sobel = img.Convert<Gray, byte>().Sobel(1, 0, 3)
                 .AbsDiff(new Gray(0.0)).Convert<Gray, byte>()
-                .ThresholdBinary(new Gray(100), new Gray(255));
+                .ThresholdBinary(new Gray(50), new Gray(255));
 
             // Dilation
-            Mat SE = CvInvoke.GetStructuringElement(Emgu.CV.CvEnum.ElementShape.Rectangle, new Size(10, 1),
+            Mat SE = CvInvoke.GetStructuringElement(Emgu.CV.CvEnum.ElementShape.Rectangle, new Size(10, 2),
                 new Point(-1, -1));
 
             sobel = sobel.MorphologyEx(Emgu.CV.CvEnum.MorphOp.Dilate,
@@ -115,7 +115,7 @@ namespace _18_Real_time_Text_Detection_from_Videos
                 Rectangle brect = CvInvoke.BoundingRectangle(contours[i]);
 
                 double ar = brect.Width / brect.Height; // aspect ration (width > height)
-                if (ar > 2 && brect.Width > 30 && brect.Height > 10 && brect.Height < 100)
+                if (ar > 2 && brect.Width > 30 && brect.Height > 8 && brect.Height < 100)
                 {
                     list.Add(brect);
                 }
